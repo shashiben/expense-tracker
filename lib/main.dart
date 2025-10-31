@@ -1,8 +1,10 @@
 import 'package:expense_tracker/app/app.theme.dart';
+import 'package:expense_tracker/core/init_service.dart';
 import 'package:expense_tracker/ui/screens/dashboard/dashboard.screen.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  await initAppServices();
   runApp(const MyApp());
 }
 
