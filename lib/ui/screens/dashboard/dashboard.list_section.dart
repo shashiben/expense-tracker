@@ -35,7 +35,7 @@ class DashboardListSection extends StatelessWidget {
                         headerText,
                         style: themeData.textTheme.titleMedium,
                       ),
-                    );
+                    ).fadeSlide(delay: const Duration(milliseconds: 100));
                   }
                   cursor++;
                   final start = cursor;
@@ -43,11 +43,12 @@ class DashboardListSection extends StatelessWidget {
                   if (index >= start && index < end) {
                     final entry = section.items[index - start];
                     final e = entry.value;
+                    final delayMs = (index * 40).clamp(0, 480);
                     return ExpenseItem(
                       expense: e,
                       onEdit: () => viewModel.editEntry(entry),
                       onDelete: () => viewModel.deleteEntry(entry),
-                    );
+                    ).fadeSlide(delay: Duration(milliseconds: delayMs));
                   }
                   cursor = end;
                 }

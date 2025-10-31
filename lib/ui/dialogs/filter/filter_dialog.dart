@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:expense_tracker/app/app.constants.dart';
+import 'package:expense_tracker/ui/utils/animation_extensions.dart';
 
 class FilterDialogModel extends BaseViewModel {
   final TextEditingController searchController;
@@ -65,9 +66,10 @@ class FilterDialog extends StackedView<FilterDialogModel> {
                           completer(DialogResponse(confirmed: false)),
                     ),
                   ],
-                ),
+                ).fadeSlide(delay: const Duration(milliseconds: 60)),
                 SizedBox(height: AppUIConstants.paddingLG),
-                Text('Category', style: theme.textTheme.labelLarge),
+                Text('Category', style: theme.textTheme.labelLarge)
+                    .fadeSlide(delay: const Duration(milliseconds: 120)),
                 SizedBox(height: AppUIConstants.spacingSM),
                 Row(
                   children: [
@@ -91,7 +93,7 @@ class FilterDialog extends StackedView<FilterDialogModel> {
                           viewModel.selectedCategory = v;
                           viewModel.notifyListeners();
                         },
-                      ),
+                      ).fadeSlide(delay: const Duration(milliseconds: 180)),
                     ),
                   ],
                 ),
@@ -121,7 +123,7 @@ class FilterDialog extends StackedView<FilterDialogModel> {
                           viewModel.sortBy = v;
                           viewModel.notifyListeners();
                         },
-                      ),
+                      ).fadeSlide(delay: const Duration(milliseconds: 220)),
                     ),
                     SizedBox(width: AppUIConstants.spacingMD),
                     Tooltip(
@@ -134,7 +136,7 @@ class FilterDialog extends StackedView<FilterDialogModel> {
                         icon: Icon(
                           viewModel.sortDesc ? Icons.south : Icons.north,
                         ),
-                      ),
+                      ).fadeIn(delay: const Duration(milliseconds: 240)),
                     ),
                   ],
                 ),
@@ -146,7 +148,7 @@ class FilterDialog extends StackedView<FilterDialogModel> {
                       onPressed: () =>
                           completer(DialogResponse(confirmed: false)),
                       child: const Text('Cancel'),
-                    ),
+                    ).fadeIn(delay: const Duration(milliseconds: 260)),
                     SizedBox(width: AppUIConstants.spacingMD),
                     ElevatedButton(
                       onPressed: () {
@@ -161,11 +163,11 @@ class FilterDialog extends StackedView<FilterDialogModel> {
                         );
                       },
                       child: const Text('Apply'),
-                    ),
+                    ).fadeSlide(delay: const Duration(milliseconds: 300)),
                   ],
                 ),
               ],
-            ),
+            ).fadeSlide(beginOffset: const Offset(0, 18), delay: const Duration(milliseconds: 40)),
           ),
         ),
       ),

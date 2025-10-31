@@ -2,6 +2,7 @@ import 'package:expense_tracker/ui/screens/dashboard/dashboard.view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:expense_tracker/app/app.constants.dart';
+import 'package:expense_tracker/ui/utils/animation_extensions.dart';
 
 import '../../components/expense_item.dart';
 part 'dashboard.list_section.dart';

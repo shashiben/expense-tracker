@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:expense_tracker/app/app.constants.dart';
+import 'package:expense_tracker/ui/utils/animation_extensions.dart';
 
 class AddExpenseDialog extends StackedView<AddExpenseSheetModel> {
   final DialogRequest<dynamic> request;
@@ -53,7 +54,7 @@ class AddExpenseDialog extends StackedView<AddExpenseSheetModel> {
                             completer(DialogResponse(confirmed: false)),
                       ),
                     ],
-                  ),
+                  ).fadeSlide(beginOffset: const Offset(0, 12), delay: const Duration(milliseconds: 80)),
                   SizedBox(height: AppUIConstants.paddingMD),
                   TextFormField(
                     controller: viewModel.titleController,
@@ -63,7 +64,7 @@ class AddExpenseDialog extends StackedView<AddExpenseSheetModel> {
                     ),
                     validator: (v) =>
                         ValidationUtils.nonEmpty(v, fieldName: 'Title'),
-                  ),
+                  ).fadeSlide(delay: const Duration(milliseconds: 140)),
                   SizedBox(height: AppUIConstants.paddingMD),
                   TextFormField(
                     controller: viewModel.amountController,
@@ -76,7 +77,7 @@ class AddExpenseDialog extends StackedView<AddExpenseSheetModel> {
                     ),
                     validator: (v) =>
                         ValidationUtils.positiveNumber(v, fieldName: 'Amount'),
-                  ),
+                  ).fadeSlide(delay: const Duration(milliseconds: 180)),
                   SizedBox(height: AppUIConstants.paddingMD),
                   DropdownButtonFormField<String>(
                     initialValue: viewModel.selectedCategory,
@@ -95,7 +96,7 @@ class AddExpenseDialog extends StackedView<AddExpenseSheetModel> {
                     ),
                     validator: (v) =>
                         ValidationUtils.nonNull(v, fieldName: 'Category'),
-                  ),
+                  ).fadeSlide(delay: const Duration(milliseconds: 220)),
                   SizedBox(height: AppUIConstants.paddingMD),
                   TextFormField(
                     controller: viewModel.tagController,
@@ -109,7 +110,7 @@ class AddExpenseDialog extends StackedView<AddExpenseSheetModel> {
                       ),
                     ),
                     onFieldSubmitted: (_) => viewModel.addTag(),
-                  ),
+                  ).fadeSlide(delay: const Duration(milliseconds: 260)),
                   SizedBox(height: AppUIConstants.spacingMD),
                   Wrap(
                     spacing: AppUIConstants.spacingSM,
@@ -122,7 +123,7 @@ class AddExpenseDialog extends StackedView<AddExpenseSheetModel> {
                           ),
                         )
                         .toList(),
-                  ),
+                  ).fadeIn(delay: const Duration(milliseconds: 300)),
                   SizedBox(height: AppUIConstants.paddingMD),
                   Row(
                     children: [
@@ -145,7 +146,7 @@ class AddExpenseDialog extends StackedView<AddExpenseSheetModel> {
                         child: const Text('Change'),
                       ),
                     ],
-                  ),
+                  ).fadeSlide(delay: const Duration(milliseconds: 340)),
                   SizedBox(height: AppUIConstants.paddingLG),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -154,7 +155,7 @@ class AddExpenseDialog extends StackedView<AddExpenseSheetModel> {
                         onPressed: () =>
                             completer(DialogResponse(confirmed: false)),
                         child: const Text('Cancel'),
-                      ),
+                      ).fadeIn(delay: const Duration(milliseconds: 360)),
                       SizedBox(width: AppUIConstants.spacingMD),
                       ElevatedButton(
                         onPressed: () {
@@ -177,11 +178,11 @@ class AddExpenseDialog extends StackedView<AddExpenseSheetModel> {
                           );
                         },
                         child: const Text('Save'),
-                      ),
+                      ).fadeSlide(delay: const Duration(milliseconds: 400)),
                     ],
                   ),
                 ],
-              ),
+              ).fadeSlide(beginOffset: const Offset(0, 18), delay: const Duration(milliseconds: 60)),
             ),
           ),
         ),
