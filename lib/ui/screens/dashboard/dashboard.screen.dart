@@ -13,15 +13,14 @@ class DashboardScreen extends StackedView<DashboardViewModel> {
   ) {
     return Scaffold(
       appBar: AppBar(title: Text("Dashboard"), centerTitle: true),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
+      body: SingleChildScrollView(child: Column(children: [
             
           ],
-        ),
-      ),
+        )),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          viewModel.showAddExpenseSheet();
+        },
         child: Icon(Icons.add),
       ),
     );
