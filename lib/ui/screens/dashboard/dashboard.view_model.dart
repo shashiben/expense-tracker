@@ -131,6 +131,7 @@ class DashboardViewModel extends BaseViewModel {
   Future<void> showAddExpenseSheet() async {
     final result = await _bottomSheetService.showCustomSheet(
       variant: BottomSheetType.addExpense,
+      isScrollControlled: true,
     );
     if (result?.confirmed == true && result?.data is ExpenseModel) {
       await _repo.create(result!.data as ExpenseModel);
@@ -142,6 +143,7 @@ class DashboardViewModel extends BaseViewModel {
     final result = await _bottomSheetService.showCustomSheet(
       variant: BottomSheetType.addExpense,
       data: entry,
+      isScrollControlled: true,
     );
     if (result?.confirmed == true) {
       final data = result?.data;

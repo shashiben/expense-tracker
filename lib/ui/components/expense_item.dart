@@ -36,11 +36,24 @@ class ExpenseItem extends StatelessWidget {
         horizontal: AppUIConstants.paddingMD,
         vertical: AppUIConstants.paddingSM,
       ),
-      title: Text(
-        expense.title,
-        style: theme.textTheme.titleMedium,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
+      title: Row(
+        children: [
+          Expanded(
+            child: Text(
+              expense.title,
+              style: theme.textTheme.titleMedium,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          Text(
+            '${AppConfig.defaultCurrencySymbol}${expense.amount.toStringAsFixed(2)}',
+            style: theme.textTheme.titleMedium?.copyWith(
+              color: theme.colorScheme.primary,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
       ),
       subtitle: Text(
         expense.category,
@@ -51,6 +64,7 @@ class ExpenseItem extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
       ),
       trailing: PopupMenuButton<String>(
+        padding: EdgeInsets.zero,
         itemBuilder: (context) => [
           PopupMenuItem(
             value: 'edit',

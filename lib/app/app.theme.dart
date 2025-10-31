@@ -11,10 +11,10 @@ final ThemeData lightThemeData = (() {
     ),
   );
 
-  final textTheme = GoogleFonts.interTextTheme(base.textTheme).copyWith(
-    titleLarge: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 22),
-    bodyLarge: GoogleFonts.inter(fontSize: 14, height: 1.4),
-    labelLarge: GoogleFonts.inter(fontWeight: FontWeight.w600),
+  final textTheme = GoogleFonts.poppinsTextTheme(base.textTheme).copyWith(
+    titleLarge: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 22),
+    bodyLarge: GoogleFonts.poppins(fontSize: 14, height: 1.4),
+    labelLarge: GoogleFonts.poppins(fontWeight: FontWeight.w600),
   );
 
   return ThemeData(
