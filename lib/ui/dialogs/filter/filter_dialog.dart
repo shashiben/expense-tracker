@@ -60,7 +60,6 @@ class FilterDialog extends StackedView<FilterDialogModel> {
                     ),
                   ],
                 ),
-                // Keep dialog minimal: search stays in the dashboard field
                 const SizedBox(height: 16),
                 Text('Category', style: theme.textTheme.labelLarge),
                 const SizedBox(height: 6),

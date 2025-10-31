@@ -26,6 +26,10 @@ class AddExpenseSheetModel extends BaseViewModel {
   void addTag() {
     final raw = tagController.text.trim();
     if (raw.isEmpty) return;
+    if (tags.length >= 5) {
+      tagController.clear();
+      return;
+    }
     if (!tags.contains(raw)) {
       tags.add(raw);
       notifyListeners();
@@ -45,6 +49,23 @@ class AddExpenseSheetModel extends BaseViewModel {
 
   void setCategory(String? category) {
     selectedCategory = category;
+    notifyListeners();
+  }
+
+  void initFromExpense({
+    required String title,
+    required double amount,
+    required String category,
+    required DateTime date,
+    required List<String> existingTags,
+  }) {
+    titleController.text = title;
+    amountController.text = amount.toString();
+    selectedCategory = category;
+    selectedDate = date;
+    tags
+      ..clear()
+      ..addAll(existingTags);
     notifyListeners();
   }
 

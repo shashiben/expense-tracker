@@ -3,6 +3,7 @@ import 'package:expense_tracker/core/services/bottom_sheet.service.dart';
 import 'package:expense_tracker/core/services/dialog.service.dart';
 import 'package:expense_tracker/data/models/expense.dart';
 import 'package:expense_tracker/data/repository/expense_hive_repository.dart';
+import 'package:expense_tracker/ui/utils/date_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/ui/models/filter_options.dart';
 import 'package:stacked/stacked.dart';
@@ -33,6 +34,33 @@ class DashboardViewModel extends BaseViewModel {
 
   double get totalVisible =>
       visible.fold<double>(0, (sum, e) => sum + e.value.amount);
+
+  List<GroupSection> get groupedSections {
+    final Map<String, List<MapEntry<int, ExpenseModel>>> groups = {};
+    for (final entry in visible) {
+      final e = entry.value;
+      final key = sortBy == SortBy.date
+          ? DateUtilsX.formatYmd(e.date)
+          : e.category;
+      groups.putIfAbsent(key, () => <MapEntry<int, ExpenseModel>>[]).add(entry);
+    }
+
+    final sections = groups.entries
+        .map((kv) => GroupSection(header: kv.key, items: kv.value))
+        .toList();
+
+    sections.sort((a, b) {
+      if (sortBy == SortBy.date) {
+        // Parse back; safe because we produced it
+        final ad = a.items.first.value.date;
+        final bd = b.items.first.value.date;
+        return ad.compareTo(bd);
+      } else {
+        return a.header.toLowerCase().compareTo(b.header.toLowerCase());
+      }
+    });
+    return sortDesc ? sections.reversed.toList() : sections;
+  }
 
   Future<void> init() async {
     await load();
@@ -111,6 +139,25 @@ class DashboardViewModel extends BaseViewModel {
     }
   }
 
+  Future<void> editEntry(MapEntry<int, ExpenseModel> entry) async {
+    final result = await _bottomSheetService.showCustomSheet(
+      variant: BottomSheetType.addExpense,
+      data: entry,
+    );
+    if (result?.confirmed == true) {
+      final data = result?.data;
+      if (data is MapEntry<int, ExpenseModel>) {
+        await _repo.update(data.key, data.value);
+        await load();
+      }
+    }
+  }
+
+  Future<void> deleteEntry(MapEntry<int, ExpenseModel> entry) async {
+    await _repo.delete(entry.key);
+    await load();
+  }
+
   Future<void> openFilterDialog() async {
     final initial = FilterOptions(
       query: searchController.text,
@@ -141,3 +188,9 @@ class DashboardViewModel extends BaseViewModel {
 }
 
 enum SortBy { date, category }
+
+class GroupSection {
+  final String header;
+  final List<MapEntry<int, ExpenseModel>> items;
+  GroupSection({required this.header, required this.items});
+}

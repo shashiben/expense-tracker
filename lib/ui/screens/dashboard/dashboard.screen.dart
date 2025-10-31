@@ -12,7 +12,6 @@ class DashboardScreen extends StackedView<DashboardViewModel> {
     DashboardViewModel viewModel,
     Widget? child,
   ) {
-    ThemeData themeData = Theme.of(context);
     return Scaffold(
       appBar: AppBar(title: Text("Dashboard"), centerTitle: true),
       body: Padding(
@@ -23,8 +22,6 @@ class DashboardScreen extends StackedView<DashboardViewModel> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Filters', style: themeData.textTheme.titleMedium),
-                const SizedBox(height: 8),
                 TextField(
                   controller: viewModel.searchController,
                   decoration: InputDecoration(
@@ -52,7 +49,6 @@ class DashboardScreen extends StackedView<DashboardViewModel> {
                   ),
                   onChanged: viewModel.onQueryChanged,
                 ),
-                // Filters handled by dialog; only search is shown here
               ],
             ),
 
@@ -63,20 +59,128 @@ class DashboardScreen extends StackedView<DashboardViewModel> {
                     ? const Center(child: CircularProgressIndicator())
                     : viewModel.visible.isEmpty
                     ? const Center(child: Text('No expenses yet'))
-                    : ListView.separated(
+                    : ListView.builder(
                         physics: const AlwaysScrollableScrollPhysics(),
-                        itemCount: viewModel.visible.length,
-                        separatorBuilder: (_, __) => const Divider(height: 1),
+                        itemCount: viewModel.groupedSections.fold<int>(
+                          0,
+                          (n, s) => n + 1 + s.items.length,
+                        ),
                         itemBuilder: (context, index) {
-                          final entry = viewModel.visible[index];
-                          final e = entry.value;
-                          return ListTile(
-                            title: Text(e.title),
-                            subtitle: Text(
-                              '${e.category} • ${DateUtilsX.formatYmd(e.date)}',
-                            ),
-                            trailing: Text(e.amount.toStringAsFixed(2)),
-                          );
+                          int cursor = 0;
+                          for (final section in viewModel.groupedSections) {
+                            if (index == cursor) {
+                              return Padding(
+                                padding: const EdgeInsets.fromLTRB(8, 12, 8, 6),
+                                child: Text(
+                                  section.header,
+                                  style: Theme.of(context).textTheme.titleSmall
+                                      ?.copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurfaceVariant,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                ),
+                              );
+                            }
+                            cursor++;
+                            final start = cursor;
+                            final end = cursor + section.items.length;
+                            if (index >= start && index < end) {
+                              final entry = section.items[index - start];
+                              final e = entry.value;
+                              return Card(
+                                margin: const EdgeInsets.symmetric(
+                                  horizontal: 4,
+                                  vertical: 4,
+                                ),
+                                child: ListTile(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 6,
+                                  ),
+                                  title: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          e.title,
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.titleMedium,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        e.amount.toStringAsFixed(2),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium
+                                            ?.copyWith(
+                                              color: Theme.of(
+                                                context,
+                                              ).colorScheme.primary,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
+                                  subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        '${e.category} • ${DateUtilsX.formatYmd(e.date)}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall
+                                            ?.copyWith(
+                                              color: Theme.of(
+                                                context,
+                                              ).colorScheme.onSurfaceVariant,
+                                            ),
+                                      ),
+                                      if (e.tags.isNotEmpty) ...[
+                                        const SizedBox(height: 2),
+                                        Text(
+                                          e.tags.join(', '),
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.bodySmall,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
+                                    ],
+                                  ),
+                                  trailing: PopupMenuButton<String>(
+                                    elevation: 2,
+                                    itemBuilder: (context) => const [
+                                      PopupMenuItem(
+                                        value: 'edit',
+                                        child: Text('Edit'),
+                                      ),
+                                      PopupMenuItem(
+                                        value: 'delete',
+                                        child: Text('Delete'),
+                                      ),
+                                    ],
+                                    onSelected: (value) {
+                                      if (value == 'edit') {
+                                        viewModel.editEntry(entry);
+                                      } else if (value == 'delete') {
+                                        viewModel.deleteEntry(entry);
+                                      }
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
+                            cursor = end;
+                          }
+                          return const SizedBox.shrink();
                         },
                       ),
               ),
@@ -100,5 +204,3 @@ class DashboardScreen extends StackedView<DashboardViewModel> {
     return vm;
   }
 }
-
-// date formatting moved to DateUtilsX

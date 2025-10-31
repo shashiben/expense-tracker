@@ -147,8 +147,8 @@ class AddExpenseSheetBody extends StackedView<AddExpenseSheetModel> {
                     child: const Text('Change'),
                   ),
                   const Spacer(),
-                  ElevatedButton(
-                    onPressed: () {
+                ElevatedButton(
+                  onPressed: () {
                       final valid =
                           viewModel.formKey.currentState?.validate() ?? false;
                       if (!valid) return;
@@ -162,7 +162,14 @@ class AddExpenseSheetBody extends StackedView<AddExpenseSheetModel> {
                         title: viewModel.titleController.text.trim(),
                         tags: List<String>.from(viewModel.tags),
                       );
+                    final data = request.data;
+                    if (data is MapEntry<int, ExpenseModel>) {
+                      completer(
+                        SheetResponse(confirmed: true, data: MapEntry(data.key, expense)),
+                      );
+                    } else {
                       completer(SheetResponse(confirmed: true, data: expense));
+                    }
                     },
                     child: const Text('Save'),
                   ),
@@ -175,8 +182,30 @@ class AddExpenseSheetBody extends StackedView<AddExpenseSheetModel> {
     );
   }
 
-  // date formatting moved to DateUtilsX
-
+  @override
+  void onViewModelReady(AddExpenseSheetModel viewModel) {
+    final data = request.data;
+    if (data is MapEntry<int, ExpenseModel>) {
+      final e = data.value;
+      viewModel.initFromExpense(
+        title: e.title,
+        amount: e.amount,
+        category: e.category,
+        date: e.date,
+        existingTags: e.tags,
+      );
+    } else if (data is ExpenseModel) {
+      final e = data;
+      viewModel.initFromExpense(
+        title: e.title,
+        amount: e.amount,
+        category: e.category,
+        date: e.date,
+        existingTags: e.tags,
+      );
+    }
+    super.onViewModelReady(viewModel);
+  }
   @override
   AddExpenseSheetModel viewModelBuilder(BuildContext context) {
     return AddExpenseSheetModel();
