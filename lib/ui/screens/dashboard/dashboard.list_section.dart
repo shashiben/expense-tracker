@@ -25,7 +25,12 @@ class DashboardListSection extends StatelessWidget {
                   if (index == cursor) {
                     final headerText = viewModel.sectionHeader(section);
                     return Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 12, 8, 6),
+                      padding: const EdgeInsets.fromLTRB(
+                        AppUIConstants.spacingMD,
+                        AppUIConstants.paddingMD,
+                        AppUIConstants.spacingMD,
+                        AppUIConstants.spacingSM,
+                      ),
                       child: Text(
                         headerText,
                         style: themeData.textTheme.titleMedium,

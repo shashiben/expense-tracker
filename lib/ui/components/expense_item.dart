@@ -16,77 +16,75 @@ class ExpenseItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final e = expense;
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
-      child: ListTile(
-        leading: Builder(
-          builder: (context) {
-            final cat = AppConfig.resolveCategory(e.category);
-            final bg =
-                cat?.bgColor ?? Theme.of(context).colorScheme.surfaceContainerHighest;
-            final ic = cat?.icon ?? Icons.account_balance_wallet_outlined;
-            return CircleAvatar(
-              radius: 22,
-              backgroundColor: bg,
-              child: Icon(ic, color: Theme.of(context).colorScheme.primary),
-            );
-          },
+    final ThemeData theme = Theme.of(context);
+    return ListTile(
+      minVerticalPadding: 0,
+      dense: true,
+      leading: Builder(
+        builder: (context) {
+          final cat = AppConfig.resolveCategory(expense.category);
+          final bg = cat?.bgColor ?? theme.colorScheme.surfaceContainerHighest;
+          final ic = cat?.icon ?? Icons.account_balance_wallet_outlined;
+          return CircleAvatar(
+            radius: AppUIConstants.radiusCircle,
+            backgroundColor: bg,
+            child: Icon(ic, color: theme.colorScheme.primary),
+          );
+        },
+      ),
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: AppUIConstants.paddingMD,
+        vertical: AppUIConstants.paddingSM,
+      ),
+      title: Text(
+        expense.title,
+        style: theme.textTheme.titleMedium,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+      subtitle: Text(
+        expense.category,
+        style: theme.textTheme.bodySmall?.copyWith(
+          color: theme.colorScheme.onSurfaceVariant,
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        title: Text(
-          e.title,
-          style: Theme.of(context).textTheme.titleMedium,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-        subtitle: Text(
-          e.category,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+      trailing: PopupMenuButton<String>(
+        itemBuilder: (context) => [
+          PopupMenuItem(
+            value: 'edit',
+            child: Row(
+              children: [
+                Icon(Icons.edit_outlined, size: AppUIConstants.iconSizeSM),
+                const SizedBox(width: AppUIConstants.spacingMD),
+                const Text('Edit'),
+              ],
+            ),
           ),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-        trailing: PopupMenuButton<String>(
-          elevation: 2,
-          itemBuilder: (context) => [
-            PopupMenuItem(
-              value: 'edit',
-              child: Row(
-                children: const [
-                  Icon(Icons.edit_outlined, size: 18),
-                  SizedBox(width: 8),
-                  Text('Edit'),
-                ],
-              ),
+          PopupMenuItem(
+            value: 'delete',
+            child: Row(
+              children: [
+                Icon(
+                  Icons.delete_outline,
+                  size: AppUIConstants.iconSizeSM,
+                  color: theme.colorScheme.error,
+                ),
+                const SizedBox(width: AppUIConstants.spacingMD),
+                const Text('Delete'),
+              ],
             ),
-            PopupMenuItem(
-              value: 'delete',
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.delete_outline,
-                    size: 18,
-                    color: Theme.of(context).colorScheme.error,
-                  ),
-                  const SizedBox(width: 8),
-                  const Text('Delete'),
-                ],
-              ),
-            ),
-          ],
-          onSelected: (value) {
-            if (value == 'edit') {
-              onEdit?.call();
-            } else if (value == 'delete') {
-              onDelete?.call();
-            }
-          },
-        ),
+          ),
+        ],
+        onSelected: (value) {
+          if (value == 'edit') {
+            onEdit?.call();
+          } else if (value == 'delete') {
+            onDelete?.call();
+          }
+        },
       ),
     );
   }
-
-  // Icon/color now resolved through AppConstants.resolveCategory
 }

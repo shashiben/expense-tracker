@@ -1,10 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'expense.dart';
-
-// **************************************************************************
-// TypeAdapterGenerator
-// **************************************************************************
 
 class ExpenseModelAdapter extends TypeAdapter<ExpenseModel> {
   @override
@@ -53,10 +47,6 @@ class ExpenseModelAdapter extends TypeAdapter<ExpenseModel> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
-
-// **************************************************************************
-// JsonSerializableGenerator
-// **************************************************************************
 
 ExpenseModel _$ExpenseModelFromJson(Map<String, dynamic> json) => ExpenseModel(
   date: DateTime.parse(json['date'] as String),

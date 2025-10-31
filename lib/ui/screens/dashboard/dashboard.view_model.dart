@@ -43,7 +43,7 @@ class DashboardViewModel extends BaseViewModel {
 
     sections.sort((a, b) {
       if (sortBy == SortBy.date) {
-        // Parse back; safe because we produced it
+        
         final ad = a.items.first.value.date;
         final bd = b.items.first.value.date;
         return ad.compareTo(bd);

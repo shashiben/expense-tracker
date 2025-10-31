@@ -3,6 +3,7 @@ import 'package:expense_tracker/ui/screens/dashboard/dashboard.view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:expense_tracker/app/app.constants.dart';
 
 class FilterDialogModel extends BaseViewModel {
   final TextEditingController searchController;
@@ -38,12 +39,17 @@ class FilterDialog extends StackedView<FilterDialogModel> {
   ) {
     final theme = Theme.of(context);
     return Dialog(
-      insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      insetPadding: const EdgeInsets.symmetric(
+        horizontal: AppUIConstants.paddingLG,
+        vertical: AppUIConstants.paddingXL,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppUIConstants.radiusXL),
+      ),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 520),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(AppUIConstants.paddingLG),
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -60,9 +66,9 @@ class FilterDialog extends StackedView<FilterDialogModel> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: AppUIConstants.paddingLG),
                 Text('Category', style: theme.textTheme.labelLarge),
-                const SizedBox(height: 6),
+                SizedBox(height: AppUIConstants.spacingSM),
                 Row(
                   children: [
                     Expanded(
@@ -89,7 +95,7 @@ class FilterDialog extends StackedView<FilterDialogModel> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: AppUIConstants.paddingMD),
                 Row(
                   children: [
                     Expanded(
@@ -117,7 +123,7 @@ class FilterDialog extends StackedView<FilterDialogModel> {
                         },
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: AppUIConstants.spacingMD),
                     Tooltip(
                       message: viewModel.sortDesc ? 'Newest/Z–A' : 'Oldest/A–Z',
                       child: IconButton.filledTonal(
@@ -132,7 +138,7 @@ class FilterDialog extends StackedView<FilterDialogModel> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: AppUIConstants.paddingLG),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -141,7 +147,7 @@ class FilterDialog extends StackedView<FilterDialogModel> {
                           completer(DialogResponse(confirmed: false)),
                       child: const Text('Cancel'),
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: AppUIConstants.spacingMD),
                     ElevatedButton(
                       onPressed: () {
                         final result = FilterOptions(

@@ -77,4 +77,30 @@ class AppConfig {
 
 class AppUIConstants {
   static const int maxTagsPerExpense = 5;
+
+  static const double spacingXXS = 2.0;
+  static const double spacingXS = 4.0;
+  static const double spacingSM = 6.0;
+  static const double spacingMD = 8.0;
+  static const double spacingLG = 12.0;
+  static const double spacingXL = 16.0;
+  static const double spacingXXL = 24.0;
+
+  static const double paddingXS = 4.0;
+  static const double paddingSM = 8.0;
+  static const double paddingMD = 12.0;
+  static const double paddingLG = 16.0;
+  static const double paddingXL = 24.0;
+
+  static const double radiusSM = 6.0;
+  static const double radiusMD = 8.0;
+  static const double radiusLG = 10.0;
+  static const double radiusXL = 12.0;
+  static const double radiusPill = 999.0;
+  static const double radiusCircle = 22.0;
+
+  static const double iconSizeXS = 14.0;
+  static const double iconSizeSM = 18.0;
+  static const double iconSizeMD = 22.0;
+  static const double iconSizeLG = 24.0;
 }

@@ -5,6 +5,7 @@ import 'package:expense_tracker/ui/utils/validation_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:expense_tracker/app/app.constants.dart';
 
 class AddExpenseDialog extends StackedView<AddExpenseSheetModel> {
   final DialogRequest<dynamic> request;
@@ -24,12 +25,17 @@ class AddExpenseDialog extends StackedView<AddExpenseSheetModel> {
   ) {
     final theme = Theme.of(context);
     return Dialog(
-      insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      insetPadding: const EdgeInsets.symmetric(
+        horizontal: AppUIConstants.paddingLG,
+        vertical: AppUIConstants.paddingXL,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppUIConstants.radiusXL),
+      ),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 520),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(AppUIConstants.paddingLG),
           child: Form(
             key: viewModel.formKey,
             child: SingleChildScrollView(
@@ -48,7 +54,7 @@ class AddExpenseDialog extends StackedView<AddExpenseSheetModel> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: AppUIConstants.paddingMD),
                   TextFormField(
                     controller: viewModel.titleController,
                     decoration: const InputDecoration(
@@ -58,7 +64,7 @@ class AddExpenseDialog extends StackedView<AddExpenseSheetModel> {
                     validator: (v) =>
                         ValidationUtils.nonEmpty(v, fieldName: 'Title'),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: AppUIConstants.paddingMD),
                   TextFormField(
                     controller: viewModel.amountController,
                     decoration: const InputDecoration(
@@ -71,7 +77,7 @@ class AddExpenseDialog extends StackedView<AddExpenseSheetModel> {
                     validator: (v) =>
                         ValidationUtils.positiveNumber(v, fieldName: 'Amount'),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: AppUIConstants.paddingMD),
                   DropdownButtonFormField<String>(
                     initialValue: viewModel.selectedCategory,
                     items: viewModel.categories
@@ -90,7 +96,7 @@ class AddExpenseDialog extends StackedView<AddExpenseSheetModel> {
                     validator: (v) =>
                         ValidationUtils.nonNull(v, fieldName: 'Category'),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: AppUIConstants.paddingMD),
                   TextFormField(
                     controller: viewModel.tagController,
                     decoration: InputDecoration(
@@ -104,10 +110,10 @@ class AddExpenseDialog extends StackedView<AddExpenseSheetModel> {
                     ),
                     onFieldSubmitted: (_) => viewModel.addTag(),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: AppUIConstants.spacingMD),
                   Wrap(
-                    spacing: 6,
-                    runSpacing: -6,
+                    spacing: AppUIConstants.spacingSM,
+                    runSpacing: -AppUIConstants.spacingSM,
                     children: viewModel.tags
                         .map(
                           (t) => Chip(
@@ -117,14 +123,14 @@ class AddExpenseDialog extends StackedView<AddExpenseSheetModel> {
                         )
                         .toList(),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: AppUIConstants.paddingMD),
                   Row(
                     children: [
                       Text(
                         'Date: ${DateUtilsX.formatYmd(viewModel.selectedDate)}',
                         style: theme.textTheme.bodyMedium,
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: AppUIConstants.spacingMD),
                       TextButton(
                         onPressed: () async {
                           final now = DateTime.now();
@@ -140,7 +146,7 @@ class AddExpenseDialog extends StackedView<AddExpenseSheetModel> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: AppUIConstants.paddingLG),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -149,7 +155,7 @@ class AddExpenseDialog extends StackedView<AddExpenseSheetModel> {
                             completer(DialogResponse(confirmed: false)),
                         child: const Text('Cancel'),
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: AppUIConstants.spacingMD),
                       ElevatedButton(
                         onPressed: () {
                           final valid =

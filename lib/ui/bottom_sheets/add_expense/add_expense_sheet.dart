@@ -4,6 +4,7 @@ import 'package:expense_tracker/ui/utils/validation_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:expense_tracker/app/app.constants.dart';
 
 import 'add_expense_sheet_model.dart';
 
@@ -27,15 +28,15 @@ class AddExpenseSheetBody extends StackedView<AddExpenseSheetModel> {
 
     return Material(
       borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(12),
-        topRight: Radius.circular(12),
+        topLeft: Radius.circular(AppUIConstants.radiusXL),
+        topRight: Radius.circular(AppUIConstants.radiusXL),
       ),
       child: Padding(
         padding: EdgeInsets.only(
-          left: 16,
-          right: 16,
-          top: 16,
-          bottom: 16 + viewInsets.bottom,
+          left: AppUIConstants.paddingLG,
+          right: AppUIConstants.paddingLG,
+          top: AppUIConstants.paddingLG,
+          bottom: AppUIConstants.paddingLG + viewInsets.bottom,
         ),
         child: Form(
           key: viewModel.formKey,
@@ -53,7 +54,7 @@ class AddExpenseSheetBody extends StackedView<AddExpenseSheetModel> {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: AppUIConstants.spacingMD),
               TextFormField(
                 controller: viewModel.titleController,
                 decoration: const InputDecoration(
@@ -63,7 +64,7 @@ class AddExpenseSheetBody extends StackedView<AddExpenseSheetModel> {
                 validator: (v) =>
                     ValidationUtils.nonEmpty(v, fieldName: 'Title'),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: AppUIConstants.paddingMD),
               TextFormField(
                 controller: viewModel.amountController,
                 decoration: const InputDecoration(
@@ -76,7 +77,7 @@ class AddExpenseSheetBody extends StackedView<AddExpenseSheetModel> {
                 validator: (v) =>
                     ValidationUtils.positiveNumber(v, fieldName: 'Amount'),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: AppUIConstants.paddingMD),
               DropdownButtonFormField<String>(
                 initialValue: viewModel.selectedCategory,
                 items: viewModel.categories
@@ -92,7 +93,7 @@ class AddExpenseSheetBody extends StackedView<AddExpenseSheetModel> {
                 validator: (v) =>
                     ValidationUtils.nonNull(v, fieldName: 'Category'),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: AppUIConstants.paddingMD),
               Row(
                 children: [
                   Expanded(
@@ -112,10 +113,10 @@ class AddExpenseSheetBody extends StackedView<AddExpenseSheetModel> {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: AppUIConstants.spacingMD),
               Wrap(
-                spacing: 6,
-                runSpacing: -6,
+                spacing: AppUIConstants.spacingSM,
+                runSpacing: -AppUIConstants.spacingSM,
                 children: viewModel.tags
                     .map(
                       (t) => Chip(
@@ -125,14 +126,14 @@ class AddExpenseSheetBody extends StackedView<AddExpenseSheetModel> {
                     )
                     .toList(),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: AppUIConstants.paddingMD),
               Row(
                 children: [
                   Text(
                     'Date: ${DateUtilsX.formatYmd(viewModel.selectedDate)}',
                     style: theme.textTheme.bodyMedium,
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: AppUIConstants.spacingMD),
                   TextButton(
                     onPressed: () async {
                       final now = DateTime.now();

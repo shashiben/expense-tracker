@@ -1,6 +1,7 @@
 import 'package:expense_tracker/ui/screens/dashboard/dashboard.view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:expense_tracker/app/app.constants.dart';
 
 import '../../components/expense_item.dart';
 part 'dashboard.list_section.dart';
@@ -17,7 +18,7 @@ class DashboardScreen extends StackedView<DashboardViewModel> {
     return Scaffold(
       appBar: AppBar(title: Text("Dashboard"), centerTitle: true),
       body: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(AppUIConstants.paddingMD),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
