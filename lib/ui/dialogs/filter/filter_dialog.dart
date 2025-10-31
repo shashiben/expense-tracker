@@ -67,13 +67,18 @@ class FilterDialog extends StackedView<FilterDialogModel> {
                   children: [
                     Expanded(
                       child: DropdownButtonFormField<String>(
-                        value: viewModel.selectedCategory,
+                        initialValue: viewModel.selectedCategory,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           isDense: true,
                         ),
                         items: viewModel.categories
-                            .map((c) => DropdownMenuItem<String>(value: c, child: Text(c)))
+                            .map(
+                              (c) => DropdownMenuItem<String>(
+                                value: c,
+                                child: Text(c),
+                              ),
+                            )
                             .toList(),
                         onChanged: (v) {
                           if (v == null) return;
@@ -82,24 +87,47 @@ class FilterDialog extends StackedView<FilterDialogModel> {
                         },
                       ),
                     ),
-                    const SizedBox(width: 8),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
                     Expanded(
                       child: DropdownButtonFormField<SortBy>(
-                        value: viewModel.sortBy,
+                        initialValue: viewModel.sortBy,
                         decoration: const InputDecoration(
                           labelText: 'Sort by',
                           border: OutlineInputBorder(),
                           isDense: true,
                         ),
                         items: const [
-                          DropdownMenuItem(value: SortBy.date, child: Text('Date')),
-                          DropdownMenuItem(value: SortBy.category, child: Text('Category')),
+                          DropdownMenuItem(
+                            value: SortBy.date,
+                            child: Text('Date'),
+                          ),
+                          DropdownMenuItem(
+                            value: SortBy.category,
+                            child: Text('Category'),
+                          ),
                         ],
                         onChanged: (v) {
                           if (v == null) return;
                           viewModel.sortBy = v;
                           viewModel.notifyListeners();
                         },
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Tooltip(
+                      message: viewModel.sortDesc ? 'Newest/Z–A' : 'Oldest/A–Z',
+                      child: IconButton.filledTonal(
+                        onPressed: () {
+                          viewModel.sortDesc = !viewModel.sortDesc;
+                          viewModel.notifyListeners();
+                        },
+                        icon: Icon(
+                          viewModel.sortDesc ? Icons.south : Icons.north,
+                        ),
                       ),
                     ),
                   ],
@@ -168,23 +196,4 @@ class FilterDialog extends StackedView<FilterDialogModel> {
       sortDesc: initial.sortDesc,
     );
   }
-}
-
-String _sortValue(SortBy sortBy, bool desc) {
-  if (sortBy == SortBy.date) return desc ? 'date_desc' : 'date_asc';
-  return desc ? 'cat_desc' : 'cat_asc';
-}
-
-String _currentSortLabel(SortBy sortBy, bool desc) {
-  switch (_sortValue(sortBy, desc)) {
-    case 'date_desc':
-      return 'Date • Newest first';
-    case 'date_asc':
-      return 'Date • Oldest first';
-    case 'cat_asc':
-      return 'Category • A–Z';
-    case 'cat_desc':
-      return 'Category • Z–A';
-  }
-  return '';
 }

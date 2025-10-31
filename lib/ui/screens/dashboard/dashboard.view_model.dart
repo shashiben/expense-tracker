@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:expense_tracker/ui/models/filter_options.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:expense_tracker/app/app.constants.dart';
 
 class DashboardViewModel extends BaseViewModel {
   final BottomSheetService _bottomSheetService = locator<BottomSheetService>();
@@ -15,16 +16,7 @@ class DashboardViewModel extends BaseViewModel {
   final DialogService _dialogService = locator<DialogService>();
 
   final searchController = TextEditingController();
-  final List<String> categories = const <String>[
-    'All',
-    'Food',
-    'Travel',
-    'Bills',
-    'Shopping',
-    'Entertainment',
-    'Health',
-    'Other',
-  ];
+  final List<String> categories = AppConfig.defaultCategoryLabels;
   String selectedCategory = 'All';
   bool sortDesc = true;
   SortBy sortBy = SortBy.date;
@@ -60,6 +52,13 @@ class DashboardViewModel extends BaseViewModel {
       }
     });
     return sortDesc ? sections.reversed.toList() : sections;
+  }
+
+  String sectionHeader(GroupSection section) {
+    if (sortBy == SortBy.date && section.items.isNotEmpty) {
+      return DateUtilsX.formatDayMonthNameYear(section.items.first.value.date);
+    }
+    return section.header;
   }
 
   Future<void> init() async {

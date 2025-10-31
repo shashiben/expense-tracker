@@ -73,7 +73,7 @@ class AddExpenseDialog extends StackedView<AddExpenseSheetModel> {
                   ),
                   const SizedBox(height: 12),
                   DropdownButtonFormField<String>(
-                    value: viewModel.selectedCategory,
+                    initialValue: viewModel.selectedCategory,
                     items: viewModel.categories
                         .map(
                           (c) => DropdownMenuItem<String>(

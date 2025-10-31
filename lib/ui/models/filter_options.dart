@@ -13,5 +13,3 @@ class FilterOptions {
     required this.sortDesc,
   });
 }
-
-

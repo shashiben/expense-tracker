@@ -41,6 +41,7 @@ dependencies:
   hive_ce:
   hive_ce_flutter:
 
+  stacked_shared: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

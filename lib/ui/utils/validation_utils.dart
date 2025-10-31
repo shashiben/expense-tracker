@@ -16,5 +16,3 @@ class ValidationUtils {
     return null;
   }
 }
-
-

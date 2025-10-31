@@ -78,7 +78,7 @@ class AddExpenseSheetBody extends StackedView<AddExpenseSheetModel> {
               ),
               const SizedBox(height: 12),
               DropdownButtonFormField<String>(
-                value: viewModel.selectedCategory,
+                initialValue: viewModel.selectedCategory,
                 items: viewModel.categories
                     .map(
                       (c) => DropdownMenuItem<String>(value: c, child: Text(c)),
@@ -128,10 +128,10 @@ class AddExpenseSheetBody extends StackedView<AddExpenseSheetModel> {
               const SizedBox(height: 12),
               Row(
                 children: [
-                Text(
-                  'Date: ${DateUtilsX.formatYmd(viewModel.selectedDate)}',
-                  style: theme.textTheme.bodyMedium,
-                ),
+                  Text(
+                    'Date: ${DateUtilsX.formatYmd(viewModel.selectedDate)}',
+                    style: theme.textTheme.bodyMedium,
+                  ),
                   const SizedBox(width: 8),
                   TextButton(
                     onPressed: () async {
@@ -147,8 +147,8 @@ class AddExpenseSheetBody extends StackedView<AddExpenseSheetModel> {
                     child: const Text('Change'),
                   ),
                   const Spacer(),
-                ElevatedButton(
-                  onPressed: () {
+                  ElevatedButton(
+                    onPressed: () {
                       final valid =
                           viewModel.formKey.currentState?.validate() ?? false;
                       if (!valid) return;
@@ -162,14 +162,19 @@ class AddExpenseSheetBody extends StackedView<AddExpenseSheetModel> {
                         title: viewModel.titleController.text.trim(),
                         tags: List<String>.from(viewModel.tags),
                       );
-                    final data = request.data;
-                    if (data is MapEntry<int, ExpenseModel>) {
-                      completer(
-                        SheetResponse(confirmed: true, data: MapEntry(data.key, expense)),
-                      );
-                    } else {
-                      completer(SheetResponse(confirmed: true, data: expense));
-                    }
+                      final data = request.data;
+                      if (data is MapEntry<int, ExpenseModel>) {
+                        completer(
+                          SheetResponse(
+                            confirmed: true,
+                            data: MapEntry(data.key, expense),
+                          ),
+                        );
+                      } else {
+                        completer(
+                          SheetResponse(confirmed: true, data: expense),
+                        );
+                      }
                     },
                     child: const Text('Save'),
                   ),
@@ -206,6 +211,7 @@ class AddExpenseSheetBody extends StackedView<AddExpenseSheetModel> {
     }
     super.onViewModelReady(viewModel);
   }
+
   @override
   AddExpenseSheetModel viewModelBuilder(BuildContext context) {
     return AddExpenseSheetModel();

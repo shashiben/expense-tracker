@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:expense_tracker/app/app.constants.dart';
 import 'package:stacked/stacked.dart';
 
 class AddExpenseSheetModel extends BaseViewModel {
@@ -11,22 +12,14 @@ class AddExpenseSheetModel extends BaseViewModel {
   final List<String> tags = <String>[];
   DateTime selectedDate = DateTime.now();
 
-  final List<String> categories = const <String>[
-    'Food',
-    'Travel',
-    'Bills',
-    'Shopping',
-    'Entertainment',
-    'Health',
-    'Other',
-  ];
+  final List<String> categories = AppConfig.inputCategoryLabels;
 
   String? selectedCategory;
 
   void addTag() {
     final raw = tagController.text.trim();
     if (raw.isEmpty) return;
-    if (tags.length >= 5) {
+    if (tags.length >= AppUIConstants.maxTagsPerExpense) {
       tagController.clear();
       return;
     }

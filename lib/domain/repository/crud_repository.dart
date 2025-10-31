@@ -6,5 +6,3 @@ abstract class CrudRepository<T, K> {
   Future<List<MapEntry<K, T>>> listAll();
   Future<void> clear();
 }
-
-

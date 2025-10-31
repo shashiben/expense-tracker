@@ -1,11 +1,11 @@
 import 'package:expense_tracker/data/models/expense.dart';
 import 'package:expense_tracker/domain/repository/expense_repository.dart';
 import 'package:hive_ce/hive.dart';
+import 'package:expense_tracker/app/app.constants.dart';
 
 class ExpenseHiveRepository implements ExpenseRepository {
-  static const String _boxName = 'expenses';
-
-  Box<ExpenseModel> get _box => Hive.box<ExpenseModel>(_boxName);
+  Box<ExpenseModel> get _box =>
+      Hive.box<ExpenseModel>(AppDbConstants.expensesBox);
 
   @override
   Future<int> create(ExpenseModel item) async {
