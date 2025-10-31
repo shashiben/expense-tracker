@@ -1,4 +1,5 @@
 import 'package:expense_tracker/data/models/expense.dart';
+import 'package:expense_tracker/ui/utils/date_utils.dart';
 import 'package:expense_tracker/ui/utils/validation_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -97,17 +98,17 @@ class AddExpenseSheetBody extends StackedView<AddExpenseSheetModel> {
                   Expanded(
                     child: TextFormField(
                       controller: viewModel.tagController,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Add tag',
                         hintText: 'e.g., office, weekend',
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.add),
+                          onPressed: viewModel.addTag,
+                          tooltip: 'Add tag',
+                        ),
                       ),
                       onFieldSubmitted: (_) => viewModel.addTag(),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  ElevatedButton(
-                    onPressed: viewModel.addTag,
-                    child: const Text('Add'),
                   ),
                 ],
               ),
@@ -127,10 +128,10 @@ class AddExpenseSheetBody extends StackedView<AddExpenseSheetModel> {
               const SizedBox(height: 12),
               Row(
                 children: [
-                  Text(
-                    'Date: ${_formatDate(viewModel.selectedDate)}',
-                    style: theme.textTheme.bodyMedium,
-                  ),
+                Text(
+                  'Date: ${DateUtilsX.formatYmd(viewModel.selectedDate)}',
+                  style: theme.textTheme.bodyMedium,
+                ),
                   const SizedBox(width: 8),
                   TextButton(
                     onPressed: () async {
@@ -139,7 +140,7 @@ class AddExpenseSheetBody extends StackedView<AddExpenseSheetModel> {
                         context: context,
                         initialDate: viewModel.selectedDate,
                         firstDate: DateTime(now.year - 5),
-                        lastDate: DateTime(now.year + 5),
+                        lastDate: DateTime.now(),
                       );
                       if (picked != null) viewModel.setDate(picked);
                     },
@@ -174,12 +175,7 @@ class AddExpenseSheetBody extends StackedView<AddExpenseSheetModel> {
     );
   }
 
-  String _formatDate(DateTime d) {
-    final y = d.year.toString().padLeft(4, '0');
-    final m = d.month.toString().padLeft(2, '0');
-    final day = d.day.toString().padLeft(2, '0');
-    return '$y-$m-$day';
-  }
+  // date formatting moved to DateUtilsX
 
   @override
   AddExpenseSheetModel viewModelBuilder(BuildContext context) {
